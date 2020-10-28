@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #all {
+            margin: 0;
+            padding: 0;
+        }
+
+        #region-radio-wrapper input,
+        #region-radio-wrapper>span {
+            margin-left: 20px;
+        }
+
+        #product-radio-wrapper input,
+        #product-radio-wrapper>span {
+            margin-left: 20px;
+        }
+
+        #region-radio-wrapper,
+        #product-radio-wrapper {
+            padding: 5px 0;
+        }
+
+        #chart {
+            margin: 0 auto;
+        }
+
+        table {
+            padding: 10px;
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        table td,
+        table th {
+            padding: 10px;
+            border: 1px solid rgb(230, 227, 227);
+        }
+
+        .axisX,
+        .axisY,
+        .axis {
+            stroke: #999;
+            stroke-width: 2px
+        }
+
+        .bar {
+            fill: rgb(215, 159, 226);
+            opacity: .5;
+        }
+
+        #svg{
+            width: 600px;
+            height: 500px;
+        }
+        #canvas {
+            width: 600px;
+            height: 420px;
+            margin-left: 20px;
+            /* background-color: #f12;s */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="all">
+        <div id="region-radio-wrapper"><span>请选择地区：</span></div>
+        <div id="product-radio-wrapper"><span>请选择商品：</span></div>
+        <div id="chart"></div>
+        <div id="myChart">
+            <svg width="600" height="420" id="svg" xmlns="http://www.w3.org/2000/svg">
+                <g id="axis">
+                    <!-- x轴 -->
+                    <line class="axisX" x1="50" y1="380" x2="590" y2="380"></line>
+                    <!-- x轴箭头 -->
+                    <path d="M 585,375 L 595,380 L 585,385 "></path>
+                    <!-- y轴 -->
+                    <line class="axisY" x1="80" y1="30" x2="80" y2="400"></line>
+                    <!-- y轴箭头 -->
+                    <path d="M 75,40 L 80,30 L 85,40"></path>
+                </g>
+
+                <g id="keduX"></g>
+                <g id="keduY"></g>
+
+                <g id="barList"></g>
+            </svg>
+            <canvas id="canvas" width="620" height="420"></canvas>
+        </div>
+    </div>
+
+    <script src="./table2.js"></script>
+    <script src="./chart.js"></script>
+
+</body>
+
+</html>

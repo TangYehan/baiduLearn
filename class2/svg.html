@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #circle {
+            width: 200px;
+            height: 200px;
+        }
+
+        .aaa {
+            fill: aquamarine;
+            /*设置svg图像的填充颜色*/
+            stroke: blueviolet;
+            /*设置边框颜色*/
+            stroke-width: 5px;
+            /*设置边框宽度*/
+        }
+    </style>
+</head>
+
+<body>
+    <div id="circle">
+        <!-- svg图也可以通过img标签插入 -->
+        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="black" r="50" cy="50" cx="50" stroke="red" stroke-with="5"></circle>
+            <!-- 圆心在y:50,x:50的位置，半径r为50 -->
+        </svg>
+
+        <!-- 在（50，50）切出宽为50，高为50的图案 -->
+        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg" viewBox="50 50 50 50">
+            <circle fill="black" r="50" cy="50" cx="50" stroke="red" stroke-with="5"></circle>
+        </svg>
+
+        <svg height="200" width="200" xmlns="http://www.w3.org/2000/svg">
+            <circle fill="black" r="20" cy="50" cx="50" class="aaa"></circle>
+        </svg>
+
+
+        <!-- 画一条直线 -->
+        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <line x1='50' y1='50' x2='100' y2='100' style=" stroke:red;stroke-width:5px"></line>
+            <!-- x1 y1 第一个点的坐标位置-->
+        </svg>
+
+        <!-- 画一条折线 -->
+        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <polyline points="0,0 30,30 30,100 100,100" style=" fill:none;stroke:burlywood;stroke-width:2px"></polyline>
+        </svg>
+
+        <!-- 画一个矩形 -->
+        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect x="50" y="50" width="100" height="30"></rect>
+            <!-- x,y为起始位置 -->
+        </svg>
+
+        <!-- 画个椭圆儿 -->
+        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="100" cy="100" rx="50" ry="20" fill="pink"></ellipse>
+            <!--100，100为中心位置 长半径ry=20 短半径rx=50 -->
+            <text x="60" y="100">我是椭圆儿</text>
+            <!-- 嵌入文字 -->
+        </svg>
+
+        <!-- 组的使用 -->
+        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <g id="myPic">
+                <circle fill="black" r="50" cy="50" cx="50" stroke="red" stroke-with="5"></circle>
+            </g>
+
+            <!-- 使用id为myPic的元素 -->
+            <use href="#myPic" x="100" y="0" />
+        </svg>
+
+
+
+        <!-- 填充 -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+            <!-- defs标签的内容不会显示到页面上 -->
+            <defs>
+                <pattern id="dots" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                    <circle fill="#bee9e8" cx="50" cy="50" r="35" />
+                </pattern>
+            </defs>
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)" />
+        </svg>
+
+
+        <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+            <rect id="rect" x="50" y="50" width="100" height="30"></rect>
+        </svg>
+        <button id="btn">click</button>
+    </div>
+
+    <script>
+        // 通过JS改变svg
+        document.getElementById("btn"), addEventListener("click", () => {
+            let rect = document.querySelector("#rect");
+            rect.setAttribute("height", "50");
+        })
+
+
+        // 如果以iframe引入的svg这样寻找
+        let iframe = document.querySelector("iframe")
+
+        //iframe引入是异步？
+        iframe.onload(function(){
+            let svg = iframe.contentDocument;
+            svg.querySelector("[p-id='xxx']")//可以选择pid为xxx的元素（属性选择器）
+        })
+
+
+    </script>
+</body>
+
+</html>

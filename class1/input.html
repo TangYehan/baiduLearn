@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body div {
+        margin: 0 auto;
+        width: 200px;
+    }
+
+    #ipt {
+        margin-top: 100px;
+        width: 100%;
+        padding: 10px;
+        border: 1.5px solid rgb(206, 199, 199);
+        border-radius: 5px;
+        position: relative;
+    }
+
+    #ul {
+        border: 1px solid rgb(206, 199, 199);
+        width: 220px;
+        position: absolute;
+        display: none;
+    }
+
+    #ul li {
+        list-style: none;
+        padding: 5px 10px;
+    }
+
+    li:hover {
+        background-color: rgb(226, 222, 222);
+    }
+</style>
+
+<body>
+    <div>
+        <input type="text" id="ipt" placeholder="请输入邮箱">
+        <ul id="ul">
+
+        </ul>
+    </div>
+    <script>
+        let ipt = document.getElementById("ipt");
+        let ul = document.getElementById("ul");
+        let liNum = 0;
+        ipt.addEventListener("keyup", function (e) {
+            let code = e.keyCode;
+            if (code === 13 || code === 38 || code === 40) {
+                return;
+            }
+            liNum = 0;
+            let inputText = ipt.value;
+
+            controlUl(inputText);
+
+            //得到Li将要展示出来的字符串
+            let liText = newInput(inputText);
+
+            createLi(liText);
+
+
+        })
+
+        ipt.addEventListener("keydown", function (e) {
+            let code = e.keyCode;
+            if (code !== 38 && code !== 40 && code !== 13) {
+                return;
+            }
+            let lis = document.getElementsByClassName("li");
+            if (lis.length === 0) return;
+            switch (code) {
+                case 38:
+                    lis[liNum].style.backgroundColor = "white";
+                    liNum--;
+                    liNum = liNum >= 0 ? liNum : lis.length - 1;
+                    lis[liNum].style.backgroundColor = "rgb(226, 222, 222)";
+                    break;
+                case 40:
+                    lis[liNum].style.backgroundColor = "white";
+                    liNum++;
+                    liNum = liNum > lis.length - 1 ? 0 : liNum;
+                    lis[liNum].style.backgroundColor = "rgb(226, 222, 222)";
+                    break;
+                case 13:
+                    ipt.value = htmlDecode(lis[liNum].innerHTML);
+                    ul.style.display = "none"
+
+            }
+        })
+
+        ipt.addEventListener("blur", function () {
+            ul.style.display = "none"
+        })
+
+        function controlUl(inputText) {
+            if (inputText) {
+                ul.style.display = "block";
+            } else {
+                ul.style.display = "none";
+            }
+        }
+
+        function newInput(inputText) {
+            if (!inputText) return [];
+            inputText = inputText.trim();
+            inputText = htmlEncode(inputText);
+
+            let ends = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+            if (/@/.test(inputText)) {
+                let inputEnd = inputText.split("@")[1];
+                inputText = inputText.split("@")[0];
+                let newEnds = [];
+                for (let i = 0; i < ends.length; i++) {
+                    if (ends[i].indexOf(inputEnd) == 0) {
+                        newEnds.push(ends[i]);
+                    }
+                }
+                ends = newEnds.length == 0 ? ends : newEnds;
+            }
+            let newString = [];
+
+            for (let i = 0; i < ends.length; i++) {
+                newString[i] = inputText + "@" + ends[i];
+            }
+            return newString
+        }
+
+        function createLi(liText) {
+            if (liText.length == 0) return;
+            let lis = ul.childNodes;
+            for (let i = lis.length - 1; i >= 0; i--) {
+                ul.removeChild(lis[i]);
+            }
+            let frg = document.createDocumentFragment();
+            for (let i = 0; i < liText.length; i++) {
+                let li = document.createElement("li");
+                li.className = "li";
+                li.innerHTML = liText[i];
+                li.addEventListener("click", _ => {                
+                    ipt.value = htmlDecode(liText[i])
+                    ul.style.display = "none"
+                })
+                frg.appendChild(li);
+            }
+            ul.appendChild(frg)
+            frg = null;
+            return;
+        }
+
+        //转码
+        function htmlEncode(html) {
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+            (temp.textContent != undefined) ? (temp.textContent = html) : (temp.innerText = html);
+            //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+            var output = temp.innerHTML;
+            temp = null;
+            return output;
+        }
+
+        //解码
+        function htmlDecode(text) {
+            //1.首先动态创建一个容器标签元素，如DIV
+            var temp = document.createElement("div");
+            //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+            temp.innerHTML = text;
+            //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+            var output = temp.innerText || temp.textContent;
+            temp = null;
+            return output;
+        }
+
+    </script>
+</body>
+
+</html>
